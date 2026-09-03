@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Verification - Namagiri Eye Care Hospital</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f5f7;
+            color: #172033;
+        }
+
+        .page {
+            width: 100%;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 25px;
+        }
+
+        .verification-card {
+            width: 100%;
+            max-width: 520px;
+
+            background: white;
+
+            border-radius: 20px;
+
+            border-top: 7px solid #d90412;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.12);
+
+            padding: 28px;
+
+            text-align: center;
+        }
+
+        /* Hospital Logo */
+
+        .hospital-logo {
+            width: 80px;
+            height: 80px;
+
+            object-fit: contain;
+
+            margin-bottom: 10px;
+        }
+
+        .hospital-name {
+            margin: 5px 0;
+
+            color: #b00000;
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.5px;
+        }
+
+        .verification-title {
+            margin: 5px 0 20px;
+
+            color: #555;
+
+            font-size: 15px;
+
+            font-weight: 600;
+        }
+
+        /* Verified */
+
+        .verified-box {
+            background: #e9f8ef;
+
+            border: 1px solid #9bd8b0;
+
+            color: #08752a;
+
+            border-radius: 12px;
+
+            padding: 14px;
+
+            margin-bottom: 20px;
+
+            font-size: 21px;
+
+            font-weight: 800;
+        }
+
+        /* Staff Photo */
+
+        .photo-container {
+            margin: 10px 0 20px;
+        }
+
+        .staff-photo {
+            width: 125px;
+            height: 150px;
+
+            object-fit: cover;
+
+            border-radius: 12px;
+
+            border: 3px solid #d90412;
+
+            background: #eee;
+
+            display: none;
+
+            margin: auto;
+        }
+
+        /* Details */
+
+        .details {
+            text-align: left;
+
+            border: 1px solid #e4e4e4;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            margin-top: 10px;
+        }
+
+        .row {
+            display: flex;
+
+            padding: 12px 14px;
+
+            border-bottom: 1px solid #eeeeee;
+
+            font-size: 14px;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            width: 42%;
+
+            font-weight: 700;
+
+            color: #555;
+        }
+
+        .value {
+            width: 58%;
+
+            color: #172033;
+
+            font-weight: 600;
+
+            word-break: break-word;
+        }
+
+        /* Status */
+
+        .active {
+            color: #08752a;
+
+            font-weight: 800;
+        }
+
+        .inactive {
+            color: #b00000;
+
+            font-weight: 800;
+        }
+
+        /* Official Message */
+
+        .official-message {
+            margin-top: 20px;
+
+            padding: 15px;
+
+            background: #fafafa;
+
+            border-radius: 10px;
+
+            color: #555;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .verified-online {
+            margin-top: 15px;
+
+            color: #08752a;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+        /* Error */
+
+        .error-box {
+            color: #b00000;
+
+            background: #fff1f1;
+
+            border: 1px solid #f0aaaa;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            font-weight: 700;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+
+            .page {
+                padding: 15px;
+            }
+
+            .verification-card {
+                padding: 20px;
+            }
+
+            .hospital-name {
+                font-size: 20px;
+            }
+
+            .row {
+                font-size: 13px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+    <div class="verification-card">
+
+        <!-- Hospital Logo -->
+
+        <img
+            class="hospital-logo"
+            src="/logo.png"
+            alt="Namagiri Eye Care Hospital Logo"
+        >
+
+
+        <!-- Hospital Name -->
+
+        <h1 class="hospital-name">
+            NAMAGIRI EYE CARE HOSPITAL
+        </h1>
+
+        <div class="verification-title">
+            OFFICIAL STAFF VERIFICATION
+        </div>
+
+
+        <!-- Result -->
+
+        <div id="result">
+
+            <div class="verification-title">
+                Verifying staff ID...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // ==========================================
+    // GET EMPLOYEE ID FROM QR URL
+    // ==========================================
+
+    const id =
+        new URLSearchParams(
+            window.location.search
+        ).get("id");
+
+
+    const result =
+        document.getElementById("result");
+
+
+    // ==========================================
+    // NO EMPLOYEE ID
+    // ==========================================
+
+    if (!id) {
+
+        result.innerHTML = `
+
+            <div class="error-box">
+
+                ✕ Employee ID was not provided.
+
+            </div>
+
+        `;
+
+    }
+
+
+    // ==========================================
+    // VERIFY STAFF
+    // ==========================================
+
+    else {
+
+        fetch(
+            "/api/staff/" +
+            encodeURIComponent(id)
+        )
+
+        .then(response => {
+
+            return response.json();
+
+        })
+
+        .then(data => {
+
+            // ==================================
+            // STAFF NOT FOUND
+            // ==================================
+
+            if (!data.success) {
+
+                result.innerHTML = `
+
+                    <div class="error-box">
+
+                        ✕ STAFF ID NOT FOUND
+
+                        <br><br>
+
+                        The entered Employee ID is
+                        not registered in the
+                        hospital staff database.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            // ==================================
+            // STAFF FOUND
+            // ==================================
+
+            const staff = data.staff;
+
+
+            // ==================================
+            // STAFF PHOTO
+            // ==================================
+
+            let photoHTML = "";
+
+            if (staff.photo) {
+
+                photoHTML = `
+
+                    <div class="photo-container">
+
+                        <img
+                            src="${staff.photo}"
+                            class="staff-photo"
+                            style="display:block"
+                            alt="Staff Photo"
+                        >
+
+                    </div>
+
+                `;
+
+            }
+
+
+            // ==================================
+            // STATUS
+            // ==================================
+
+            const status =
+                staff.status || "ACTIVE";
+
+
+            const statusClass =
+                status.toUpperCase() === "ACTIVE"
+                    ? "active"
+                    : "inactive";
+
+
+            // ==================================
+            // VERIFICATION RESULT
+            // ==================================
+
+            result.innerHTML = `
+
+                <div class="verified-box">
+
+                    ✓ STAFF ID VERIFIED
+
+                </div>
+
+
+                ${photoHTML}
+
+
+                <div class="details">
+
+
+                    <div class="row">
+
+                        <div class="label">
+                            Employee ID
+                        </div>
+
+                        <div class="value">
+                            ${staff.employee_id || "—"}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="label">
+                            Name
+                        </div>
+
+                        <div class="value">
+                            ${staff.name || "—"}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="label">
+                            Designation
+                        </div>
+
+                        <div class="value">
+                            ${staff.designation || "—"}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="label">
+                            Department
+                        </div>
+
+                        <div class="value">
+                            ${staff.department || "—"}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="label">
+                            Joining Date
+                        </div>
+
+                        <div class="value">
+                            ${staff.date_of_joining || "—"}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="label">
+                            Blood Group
+                        </div>
+
+                        <div class="value">
+                            ${staff.blood_group || "—"}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="label">
+                            Emergency Contact
+                        </div>
+
+                        <div class="value">
+                            ${staff.emergency_contact || "—"}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="label">
+                            Status
+                        </div>
+
+                        <div class="value ${statusClass}">
+                            ${status}
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="official-message">
+
+                    ✓ This staff member is officially
+                    registered with
+
+                    <strong>
+                        Namagiri Eye Care Hospital
+                    </strong>.
+
+                    <br><br>
+
+                    This verification page confirms
+                    that the Employee ID exists in
+                    the hospital staff database.
+
+                </div>
+
+
+                <div class="verified-online">
+
+                    ✓ Verified Online
+
+                </div>
+
+            `;
+
+        })
+
+
+        // ==================================
+        // SERVER ERROR
+        // ==================================
+
+        .catch(error => {
+
+            console.error(
+                "Verification Error:",
+                error
+            );
+
+
+            result.innerHTML = `
+
+                <div class="error-box">
+
+                    ✕ Verification service unavailable.
+
+                    <br><br>
+
+                    Please try again later.
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

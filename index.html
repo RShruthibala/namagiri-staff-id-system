@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Namagiri Eye Care Hospital - Staff ID Card</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="eye-logo"><img id="headerLogo" alt="Hospital Logo"></div>
+    <div><h1>NAMAGIRI EYE CARE HOSPITAL</h1><p>Staff Identification Card Management</p></div>
+  </div>
+  <div class="top-actions">
+    <button class="btn white" id="newBtn">＋ New Record</button>
+    <button class="btn outline" id="printTop">▣ Print ID Card</button>
+  </div>
+</header>
+
+<main class="layout">
+<section class="panel form-panel">
+  <h2>👤 &nbsp;1. Staff Details</h2>
+  <div class="grid2">
+    <label>Employee ID <b>*</b><input id="employeeId" value="NEC-001"></label>
+    <label>Full Name <b>*</b><input id="fullName" value="S. PARIMALA"></label>
+    <label>Designation <b>*</b><input id="designation" value="Staff Nurse"></label>
+    <label>Department <b>*</b>
+      <select id="department">
+        <option value="OP (Outpatient)">OP (Outpatient)</option>
+        <option value="OT (Operation Theatre)">OT (Operation Theatre)</option>
+      </select>
+    </label>
+    <label>Date of Joining <b>*</b><input id="joiningDate" type="date" value="2026-05-13"></label>
+    <label>Blood Group<input id="bloodGroup" value="B+"></label>
+    <label>Emergency Contact <b>*</b><input id="emergency" value="6382177946"></label>
+    <label>Card Status <b>*</b>
+      <select id="status"><option>ACTIVE</option><option>INACTIVE</option></select>
+    </label>
+  </div>
+  <div class="required">* Required Fields</div>
+
+  <h2>🖼 &nbsp;2. Upload Images</h2>
+  <div class="upload-grid">
+    <label class="upload">👤 Staff Photo *<input id="photo" type="file" accept="image/*"><span id="photoName">No file chosen</span></label>
+    <label class="upload">🏥 Hospital Logo *<input id="logo" type="file" accept="image/*"><span id="logoName">No file chosen</span></label>
+    <label class="upload">✍ Staff Signature<input id="staffSig" type="file" accept="image/*"><span id="staffSigName">No file chosen</span></label>
+    <label class="upload">🖊 Doctor/Authorized Signature<input id="doctorSig" type="file" accept="image/*"><span id="doctorSigName">No file chosen</span></label>
+  </div>
+
+  <h2>🏥 &nbsp;3. Hospital Details</h2>
+  <div class="grid2">
+    <label>Hospital Phone<input id="hospitalPhone" value="04294-123456"></label>
+    <label>Hospital Email<input id="hospitalEmail" value="info@namagiriyecare.com"></label>
+  </div>
+  <label>Hospital Address<textarea id="hospitalAddress">123, Main Road, Perundurai, Erode - 638 052, Tamil Nadu, India.</textarea></label>
+
+  <div class="bottom-actions">
+    <button class="btn red" id="saveBtn">▣ Save Staff Record</button>
+    <button class="btn red-outline" id="loadBtn">▰ Load Saved Record</button>
+    <button class="btn red-outline" id="clearBtn">⟳ Clear Form</button>
+  </div>
+</section>
+
+<section class="panel preview-panel">
+  <div class="preview-title"><h2>👁 &nbsp;Live Preview</h2><span id="statusBadge">ACTIVE</span></div>
+  <div class="cards">
+    <div><div class="caption">FRONT</div><div class="idcard front" id="frontCard">
+      <div class="front-head"><div id="logoBox" class="default-logo"><span class="eye-symbol">◉</span></div><div><strong>NAMAGIRI</strong><b>EYE CARE HOSPITAL</b><small>Clear Vision. Better Life.</small></div></div>
+      <div class="photo-wrap"><img id="photoPreview" alt="Staff photo"></div>
+      <div class="name-band"><strong id="pName">S. PARIMALA</strong><span id="pDesignation">STAFF NURSE</span></div>
+      <div class="front-info">
+        <div><b>▣ EMPLOYEE ID</b><span id="pId">NEC-001</span></div>
+        <div><b>♟ DEPARTMENT</b><span id="pDept">OP (OUTPATIENT)</span></div>
+        <div><b>● DESIGNATION</b><span id="pDes">STAFF NURSE</span></div>
+        <div><b>✚ BLOOD GROUP</b><span id="pBlood">B+</span></div>
+      </div>
+      <div class="qr"><div id="qrBox"><span>QR</span></div><small>SCAN TO VERIFY</small></div>
+      <div class="front-footer">⌖ &nbsp; NAMAGIRI EYE CARE HOSPITAL</div>
+    </div></div>
+
+    <div><div class="caption">BACK</div><div class="idcard back" id="backCard">
+      <div class="back-head">— &nbsp; STAFF IDENTIFICATION CARD &nbsp; —</div>
+      <div class="back-body">
+        <div class="rows">
+          <p><b>EMPLOYEE ID</b><i>:</i><span id="bId">NEC-001</span></p>
+          <p><b>NAME</b><i>:</i><span id="bName">S. PARIMALA</span></p>
+          <p><b>DESIGNATION</b><i>:</i><span id="bDes">STAFF NURSE</span></p>
+          <p><b>DEPARTMENT</b><i>:</i><span id="bDept">OP (OUTPATIENT)</span></p>
+          <p><b>DATE OF JOINING</b><i>:</i><span id="bDate">13-05-2026</span></p>
+          <p><b>EMERGENCY CONTACT</b><i>:</i><span id="bEmergency">6382177946</span></p>
+        </div>
+        <div class="return-box"> 
+        <strong>If found, please return to</strong> 
+        <b>Namagiri Eye Care Hospital</b> 
+
+       <span>☎ &nbsp;<span id="phoneBack">04294-123456</span></span> 
+
+       <span>✉ &nbsp;<span id="emailBack">info@namagiriyecare.com</span></span> 
+
+       <span>⌖ &nbsp;<span id="addressBack">123, Main Road, Perundurai, Erode - 638 052, Tamil Nadu, India.</span></span> 
+        </div>
+        <div class="signatures">
+          <div><label>STAFF SIGNATURE</label><img id="staffSigPreview"><hr></div>
+          <div><label>AUTHORISED SIGNATURE</label><img id="doctorSigPreview"><hr><b>Medical Director</b><small>Namagiri Eye Care Hospital</small></div>
+        </div>
+      </div>
+      <div class="back-footer">This ID card is the property of<br><strong>Namagiri Eye Care Hospital.</strong><br>It must be worn at all times while on duty.</div>
+    </div></div>
+  </div>
+</section>
+</main>
+<script src="script.js"></script>
+</body>
+</html>

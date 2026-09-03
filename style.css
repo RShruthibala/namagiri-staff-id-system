@@ -1,0 +1,51 @@
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7f9;color:#14213d}.topbar{height:78px;background:linear-gradient(100deg,#e30613,#d30009);color:white;display:flex;align-items:center;justify-content:space-between;padding:10px 30px}.brand{display:flex;align-items:center;gap:16px}.brand h1{margin:0;font-size:29px;letter-spacing:.5px}.brand p{margin:3px 0 0;font-weight:600;font-size:17px}.eye-logo{width:64px;height:42px;border:4px solid white;border-radius:70% 20%;transform:rotate(0deg);position:relative}.eye-logo:after{content:"";position:absolute;width:17px;height:17px;border:4px solid white;border-radius:50%;left:19px;top:7px}.top-actions{display:flex;gap:14px}.btn{border:0;border-radius:8px;padding:11px 18px;font-size:16px;font-weight:700;cursor:pointer}.white{background:#fff;color:#d90412}.outline{background:transparent;color:#fff;border:1px solid #fff}.layout{display:grid;grid-template-columns:40% 60%;gap:22px;padding:8px 18px 18px}.panel{background:#fff;border-radius:14px;box-shadow:0 2px 15px #00000012;padding:18px 25px}.form-panel h2,.preview-title h2{font-size:18px;color:#d90412;border-bottom:1px solid #e8e8e8;padding-bottom:10px;margin:0 0 14px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}label{display:block;font-size:13px;font-weight:700;margin-bottom:13px}label b,.required{color:#d90412}input,select,textarea{width:100%;margin-top:7px;border:1px solid #d2d8e0;border-radius:7px;padding:10px 12px;font-size:15px;background:#fff}textarea{height:62px;resize:vertical}.required{font-size:12px;margin:2px 0 15px}.upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.upload{border:1px dashed #c8ced7;border-radius:8px;padding:10px;color:#18233a}.upload input{border:0;padding:0;margin-top:7px}.upload span{display:block;color:#555;font-weight:400;margin-top:4px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bottom-actions{display:flex;gap:18px;margin-top:10px}.red{background:#d90412;color:#fff}.red-outline{background:white;color:#d90412;border:1px solid #d90412}.preview-panel{min-height:850px}.preview-title{display:flex;justify-content:space-between;align-items:center}.preview-title h2{border:0;margin:0}.preview-title span{background:#d9f8df;color:#08752a;padding:8px 12px;border-radius:18px;font-size:12px;font-weight:bold}.cards{display:flex;justify-content:center;gap:32px;align-items:flex-start;padding-top:42px}.caption{text-align:center;font-weight:bold;font-size:13px;margin-bottom:24px}.idcard{width:385px;height:700px;border:5px solid #c9000b;border-radius:20px;background:#fff;overflow:hidden;position:relative;box-shadow:0 6px 18px #0002}.front{padding:28px 18px 0}.front-head{display:flex;align-items:center;justify-content:center;gap:12px;color:#d0000b}.front-head strong{display:block;font-size:30px;letter-spacing:1px}.front-head b{display:block;color:#111;font-size:18px}.front-head small{display:block;color:#222;text-align:center;margin-top:5px}.default-logo{width:72px;height:50px;border:5px solid #d0000b;border-radius:60% 25%;position:relative;text-align:center}.eye-symbol{font-size:38px;color:#d0000b;line-height:40px}.front-head img{width:72px;height:50px;object-fit:contain}.photo-wrap{width:198px;height:190px;border:3px solid #d0000b;border-radius:17px;margin:18px auto 6px;overflow:hidden;background:#f5f5f5;display:flex;align-items:center;justify-content:center}.photo-wrap img{width:100%;height:100%;object-fit:cover}.photo-wrap:empty:after{content:"Staff Photo";color:#777}.name-band{background:#d90412;color:white;border-radius:7px;text-align:center;padding:7px 4px;margin:0 8px}.name-band strong{display:block;font-size:24px}.name-band span{display:block;background:#fff;color:#111;border:1px solid #d90412;border-radius:5px;margin:5px 55px -22px;padding:3px;font-weight:bold}.front-info{margin:55px 0 0 8px;font-size:13px;line-height:2}.front-info div{display:flex;gap:12px}.front-info b{width:130px}.qr{position:absolute;right:20px;bottom:70px;text-align:center}.qr div{width:78px;height:78px;border:2px solid #d90412;padding:17px;font-size:25px;font-weight:bold}.qr small{font-weight:bold}.front-footer,.back-footer{position:absolute;bottom:0;left:0;width:100%;background:#d90412;color:#fff;text-align:center;padding:13px;font-size:16px;font-weight:bold}.back-head{background:#d90412;color:white;text-align:center;font-size:21px;font-weight:bold;padding:17px 5px}.back-body{padding:22px 20px}.rows p{display:grid;grid-template-columns:145px 15px 1fr;margin:0;padding:9px 0;border-bottom:1px solid #ddd;font-size:13px}.return-box{border:1.5px solid #d90412;border-radius:10px;margin-top:18px;padding:13px;text-align:center}.return-box strong,.return-box b,.return-box span{display:block;margin:5px 0}.return-box b{font-size:17px;color:#d90412}.signatures{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px;text-align:center}.signatures label{font-size:11px;color:#d90412}.signatures img{height:38px;max-width:120px;display:block;margin:5px auto;object-fit:contain}.signatures hr{border:0;border-top:1px solid #222;margin:0}.signatures b,.signatures small{display:block;font-size:11px}.back-footer{font-size:12px;padding:9px}.back-footer strong{font-size:14px}@media(max-width:1200px){.layout{grid-template-columns:1fr}.preview-panel{min-height:auto}.cards{flex-wrap:wrap}}@media print{body{background:white}.topbar,.form-panel,.preview-title,.caption{display:none!important}.layout{display:block;padding:0}.preview-panel{box-shadow:none;padding:0}.cards{gap:18mm;padding:0}.idcard{box-shadow:none;break-inside:avoid}.cards>div{display:block}.preview-panel .cards{justify-content:center}.front,.back{page-break-inside:avoid}}.eye-logo{width:64px;height:50px;border:3px solid white;border-radius:12px;transform:none;overflow:hidden;display:flex;align-items:center;justify-content:center;background:white}.eye-logo:after{display:none}.eye-logo img{width:100%;height:100%;object-fit:contain}.qr div{padding:0;display:flex;align-items:center;justify-content:center}.qr div img{width:100%;height:100%;display:block;object-fit:contain}
+/* STAFF SIGNATURE FIX */
+#staffSigPreview {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100px !important;
+    height: 30px !important;
+    object-fit: contain !important;
+    margin: 2px auto !important;
+}
+/* BACK CARD - FIT SIGNATURE PROPERLY */
+
+.back-body {
+    padding: 15px 18px;
+}
+
+.rows p {
+    padding: 6px 0;
+    font-size: 12px;
+}
+
+.return-box {
+    margin-top: 10px;
+    padding: 8px;
+}
+
+.return-box strong,
+.return-box b,
+.return-box span {
+    margin: 3px 0;
+}
+
+.return-box b {
+    font-size: 15px;
+}
+
+.signatures {
+    margin-top: 8px;
+    gap: 12px;
+}
+
+.signatures label {
+    font-size: 10px;
+}
+
+.signatures img {
+    height: 30px;
+    max-width: 100px;
+    margin: 2px auto;
+}
