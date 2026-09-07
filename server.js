@@ -35,14 +35,13 @@ app.use(express.static(__dirname));
 
 const pool = new Pool({
   user: process.env.PGUSER || 'postgres',
-
   host: process.env.PGHOST || 'localhost',
-
   database: process.env.PGDATABASE || 'namagiri_staff',
-
-  password: process.env.PGPASSWORD || 'shruthi',
-
-  port: Number(process.env.PGPORT || 5432)
+  password: process.env.PGPASSWORD,
+  port: Number(process.env.PGPORT || 5432),
+  ssl: process.env.PGHOST?.includes('supabase')
+    ? { rejectUnauthorized: false }
+    : undefined
 });
 
 
@@ -368,7 +367,7 @@ app.get('/verify.html', (_req, res) => {
 // START SERVER
 // ===============================
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
 
   console.log(
     '---------------------------------------'
