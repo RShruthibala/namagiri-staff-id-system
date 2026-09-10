@@ -2,10 +2,32 @@ const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
 const QRCode = require('qrcode');
+const session = require('express-session');
 
 const app = express();
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'namagiri-local-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 2 * 60 * 60 * 1000
+    }
+}));
 
 const PORT = process.env.PORT || 3000;
+function requireAuth(req, res, next) {
+    if (req.session && req.session.authenticated) {
+        return next();
+    }
+
+    return res.status(401).json({
+        success: false,
+        message: "Authentication required"
+    });
+}
 
 const PUBLIC_BASE_URL =
   process.env.PUBLIC_BASE_URL || `http://10.60.252.5:${PORT}`;
@@ -26,9 +48,27 @@ app.use(express.urlencoded({
   limit: '12mb'
 }));
 
-app.use(express.static(__dirname));
 
 
+
+
+app.get('/', (req, res) => {
+    if (req.session && req.session.authenticated) {
+        return res.sendFile(__dirname + '/index.html');
+    }
+
+    res.sendFile(__dirname + '/login.html');
+});
+
+app.get('/index.html', (req, res) => {
+    if (!req.session || !req.session.authenticated) {
+        return res.redirect('/');
+    }
+
+    res.sendFile(__dirname + '/index.html');
+});
+
+app.use(express.static(__dirname, { index: false }));
 // ===============================
 // POSTGRESQL DATABASE
 // ===============================
@@ -80,8 +120,7 @@ app.get('/api/testdb', async (_req, res) => {
 // GET STAFF FOR VERIFICATION
 // ===============================
 
-app.get('/api/staff/:employeeId', async (req, res) => {
-
+app.get('/api/qr/:employeeId', requireAuth, async (req, res) => {
   try {
 
     const r = await pool.query(
@@ -157,7 +196,7 @@ app.get('/api/staff/:employeeId', async (req, res) => {
 // SAVE / UPDATE STAFF
 // ===============================
 
-app.post('/api/staff', async (req, res) => {
+app.post('/api/staff', requireAuth, async (req, res) => {
 
   try {
 
@@ -362,7 +401,44 @@ app.get('/verify.html', (_req, res) => {
 
 });
 
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
 
+    const adminUsername = process.env.ADMIN_USERNAME;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+
+    if (
+        username === adminUsername &&
+        password === adminPassword
+    ) {
+        req.session.authenticated = true;
+
+        return res.json({
+            success: true,
+            message: 'Login successful'
+        });
+    }
+
+    res.status(401).json({
+        success: false,
+        message: 'Invalid username or password'
+    });
+});
+app.post('/api/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({
+                success: false,
+                message: 'Logout failed'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Logout successful'
+        });
+    });
+});
 // ===============================
 // START SERVER
 // ===============================
