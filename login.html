@@ -158,59 +158,51 @@
     </div>
 
     <script>
-        document
-            .getElementById("loginForm")
-            .addEventListener("submit", async function (e) {
+        <script>
+document.getElementById("loginForm").addEventListener("submit", function (e) {
 
-                e.preventDefault();
+    e.preventDefault();
 
-                const username =
-                    document.getElementById("username").value;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
 
-                const password =
-                    document.getElementById("password").value;
+    const message = document.getElementById("message");
 
-                const message =
-                    document.getElementById("message");
+    message.textContent = "Checking login...";
 
-                message.textContent = "Checking login...";
+    fetch("/api/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(result) {
 
-                try {
+        if (result.success) {
+            message.textContent = "Login successful...";
+            window.location.href = "/index.html";
+        } else {
+            message.textContent = "Invalid username or password.";
+        }
 
-                    const response = await fetch("/api/login", {
-                        method: "POST",
+    })
+    .catch(function(error) {
 
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
+        console.error("Login error:", error);
+        message.textContent = "Unable to connect to server.";
 
-                        body: JSON.stringify({
-                            username,
-                            password
-                        })
-                    });
+    });
 
-                    const result = await response.json();
+});
+</script>
 
-                    if (result.success) {
-
-                        window.location.href = "/index.html";
-
-                    } else {
-
-                        message.textContent =
-                            "Invalid username or password.";
-
-                    }
-
-                } catch (error) {
-
-                    message.textContent =
-                        "Unable to connect to server.";
-
-                    console.error(error);
-                }
-            });
     </script>
 
 </body>
