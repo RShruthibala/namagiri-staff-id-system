@@ -402,7 +402,8 @@ app.get('/verify.html', (_req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
-    const { username, password } = req.body;
+    const username = req.body.username;
+    const password = req.body.password;
 
     const adminUsername = process.env.ADMIN_USERNAME;
     const adminPassword = process.env.ADMIN_PASSWORD;
@@ -413,16 +414,37 @@ app.post('/api/login', (req, res) => {
     ) {
         req.session.authenticated = true;
 
-        return res.json({
-            success: true,
-            message: 'Login successful'
-        });
+        return res.redirect('/index.html');
     }
 
-    res.status(401).json({
-        success: false,
-        message: 'Invalid username or password'
-    });
+    return res.status(401).send(`
+        <html>
+        <head>
+            <title>Login Failed</title>
+        </head>
+        <body style="
+            font-family: Arial;
+            text-align: center;
+            padding-top: 100px;
+        ">
+            <h2 style="color:#b00020;">
+                Invalid username or password
+            </h2>
+
+            <a href="/" style="
+                display:inline-block;
+                margin-top:20px;
+                padding:12px 25px;
+                background:#b00020;
+                color:white;
+                text-decoration:none;
+                border-radius:8px;
+            ">
+                Back to Login
+            </a>
+        </body>
+        </html>
+    `);
 });
 app.post('/api/logout', (req, res) => {
     req.session.destroy((err) => {
