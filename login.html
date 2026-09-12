@@ -9,78 +9,59 @@
     <style>
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
         }
 
         body {
+            margin: 0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: Arial, sans-serif;
             background: #f5f5f5;
         }
 
-        .login-container {
+        .login-box {
             width: 380px;
-            background: white;
             padding: 35px;
+            background: white;
             border-radius: 15px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-            text-align: center;
-        }
-
-        .logo {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            margin-bottom: 15px;
         }
 
         h1 {
-            color: #b00020;
-            font-size: 24px;
+            text-align: center;
+            color: #a00000;
             margin-bottom: 8px;
         }
 
         .subtitle {
+            text-align: center;
             color: #666;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-
-        .input-group {
-            text-align: left;
-            margin-bottom: 18px;
+            margin-bottom: 30px;
         }
 
         label {
             display: block;
             margin-bottom: 7px;
             font-weight: bold;
-            color: #333;
         }
 
         input {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
+            margin-bottom: 20px;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 7px;
             font-size: 15px;
-            outline: none;
-        }
-
-        input:focus {
-            border-color: #b00020;
         }
 
         button {
             width: 100%;
-            padding: 13px;
+            padding: 14px;
             border: none;
-            border-radius: 8px;
-            background: #b00020;
+            border-radius: 7px;
+            background: #a00000;
             color: white;
             font-size: 16px;
             font-weight: bold;
@@ -88,20 +69,13 @@
         }
 
         button:hover {
-            background: #8d001a;
+            background: #7d0000;
         }
 
-        #message {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #c00000;
-        }
-
-        .verify-note {
+        .note {
             margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #ddd;
-            font-size: 12px;
+            text-align: center;
+            font-size: 13px;
             color: #777;
         }
     </style>
@@ -109,41 +83,35 @@
 
 <body>
 
-    <div class="login-container">
+    <div class="login-box">
 
-        <img src="/logo.png" class="logo" alt="Namagiri Eye Care Hospital">
+        <h1>Namagiri Eye Care Hospital</h1>
 
-        <h1>Hospital Staff Login</h1>
-
-        <p class="subtitle">
-            Staff ID Card Management System
-        </p>
+        <div class="subtitle">
+            Hospital Staff Login
+        </div>
 
         <form action="/api/login" method="POST">
 
-            <div class="input-group">
-                <label for="username">Username</label>
+            <label for="username">Username</label>
 
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter username"
-                    required
-                >
-            </div>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter username"
+                required
+            >
 
-            <div class="input-group">
-                <label for="password">Password</label>
+            <label for="password">Password</label>
 
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter password"
-                    required
-                >
-            </div>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter password"
+                required
+            >
 
             <button type="submit">
                 Login
@@ -151,14 +119,11 @@
 
         </form>
 
-        <p id="message"></p>
-
-        <div class="verify-note">
+        <div class="note">
             QR verification does not require login.
         </div>
 
     </div>
 
-    
 </body>
 </html>
