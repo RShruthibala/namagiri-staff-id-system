@@ -72,6 +72,18 @@
             background: #7d0000;
         }
 
+        button:disabled {
+            background: #777;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
         .note {
             margin-top: 20px;
             text-align: center;
@@ -91,7 +103,7 @@
             Hospital Staff Login
         </div>
 
-        <form action="/api/login" method="POST">
+        <form id="loginForm">
 
             <label for="username">Username</label>
 
@@ -113,9 +125,11 @@
                 required
             >
 
-            <button type="submit">
+            <button type="submit" id="loginButton">
                 Login
             </button>
+
+            <div id="message" class="message"></div>
 
         </form>
 
@@ -124,6 +138,75 @@
         </div>
 
     </div>
+
+
+    <script>
+
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            const button = document.getElementById("loginButton");
+            const message = document.getElementById("message");
+
+            button.disabled = true;
+            button.textContent = "Logging in...";
+
+            message.textContent = "";
+            message.style.color = "#555";
+
+            try {
+
+                const response = await fetch("/api/login", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+
+                    credentials: "same-origin",
+
+                    body: new URLSearchParams({
+                        username: username,
+                        password: password
+                    })
+
+                });
+
+                if (response.ok) {
+
+                    message.textContent = "Login successful...";
+                    message.style.color = "green";
+
+                    window.location.href = "/index.html";
+
+                } else {
+
+                    message.textContent = "Invalid username or password.";
+                    message.style.color = "#b00020";
+
+                    button.disabled = false;
+                    button.textContent = "Login";
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                message.textContent = "Unable to connect to server.";
+                message.style.color = "#b00020";
+
+                button.disabled = false;
+                button.textContent = "Login";
+            }
+
+        });
+
+    </script>
 
 </body>
 </html>
