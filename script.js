@@ -82,16 +82,17 @@ function update() {
 
     $("bEmergency").textContent =
         $("emergency").value || "—";
-        /* HOSPITAL DETAILS - BACK CARD */
 
-$("phoneBack").textContent =
-    $("hospitalPhone").value || "—";
+    /* HOSPITAL DETAILS */
 
-$("emailBack").textContent =
-    $("hospitalEmail").value || "—";
+    $("phoneBack").textContent =
+        $("hospitalPhone").value || "—";
 
-$("addressBack").textContent =
-    $("hospitalAddress").value || "—";
+    $("emailBack").textContent =
+        $("hospitalEmail").value || "—";
+
+    $("addressBack").textContent =
+        $("hospitalAddress").value || "—";
 
     /* STATUS */
 
@@ -107,7 +108,6 @@ $("addressBack").textContent =
 
         $("statusBadge").style.background = "#ffd9d9";
         $("statusBadge").style.color = "#b00000";
-
     }
 }
 
@@ -120,11 +120,39 @@ fields.forEach(id => {
     const element = $(id);
 
     if (element) {
+
         element.addEventListener("input", update);
         element.addEventListener("change", update);
+
+    }
+});
+
+/* =========================
+   DEFAULT HOSPITAL LOGO
+========================= */
+
+function loadDefaultLogo() {
+
+    const logoBox = $("logoBox");
+    const headerLogo = $("headerLogo");
+
+    if (logoBox) {
+
+        logoBox.innerHTML =
+            '<img src="logo.png" alt="Hospital Logo">';
+
     }
 
-});
+    if (headerLogo) {
+
+        headerLogo.src = "logo.png";
+
+    }
+
+    /* Save default logo reference */
+
+    savedImages.logo = "logo.png";
+}
 
 /* =========================
    IMAGE UPLOAD
@@ -143,6 +171,7 @@ Object.values(imgs).forEach(id => {
         if (!file) return;
 
         /* Check image */
+
         if (!file.type.startsWith("image/")) {
 
             alert("Please select an image file.");
@@ -159,60 +188,103 @@ Object.values(imgs).forEach(id => {
             const imageData = ev.target.result;
 
             /* Save image */
+
             savedImages[id] = imageData;
 
             /* Show filename */
+
             const nameElement = $(id + "Name");
 
             if (nameElement) {
-                nameElement.textContent = file.name;
+
+                nameElement.textContent =
+                    file.name;
+
             }
 
             /* STAFF PHOTO */
+
             if (id === "photo") {
 
-                $("photoPreview").src = imageData;
+                const preview = $("photoPreview");
 
+                if (preview) {
+
+                    preview.src = imageData;
+
+                }
             }
 
             /* HOSPITAL LOGO */
+
             if (id === "logo") {
 
-                $("logoBox").innerHTML =
-                    '<img src="' +
-                    imageData +
-                    '" alt="Hospital Logo">';
+                const logoBox = $("logoBox");
+                const headerLogo = $("headerLogo");
 
-                $("headerLogo").src = imageData;
+                if (logoBox) {
 
+                    logoBox.innerHTML =
+                        '<img src="' +
+                        imageData +
+                        '" alt="Hospital Logo">';
+
+                }
+
+                if (headerLogo) {
+
+                    headerLogo.src =
+                        imageData;
+
+                }
             }
 
             /* STAFF SIGNATURE */
-            
-if (id === "staffSig") {
 
-    const sigPreview = $("staffSigPreview");
+            if (id === "staffSig") {
 
-    sigPreview.src = imageData;
-    sigPreview.style.display = "block";
-    sigPreview.style.visibility = "visible";
-    sigPreview.style.opacity = "1";
-    console.log("Staff signature loaded successfully");
+                const sigPreview =
+                    $("staffSigPreview");
 
-}
+                if (sigPreview) {
 
-            /* DOCTOR SIGNATURE */
-            if (id === "doctorSig") {
+                    sigPreview.src =
+                        imageData;
 
-                $("doctorSigPreview").src = imageData;
+                    sigPreview.style.display =
+                        "block";
 
+                    sigPreview.style.visibility =
+                        "visible";
+
+                    sigPreview.style.opacity =
+                        "1";
+                }
             }
 
+            /* DOCTOR SIGNATURE */
+
+            if (id === "doctorSig") {
+
+                const doctorPreview =
+                    $("doctorSigPreview");
+
+                if (doctorPreview) {
+
+                    doctorPreview.src =
+                        imageData;
+
+                    doctorPreview.style.display =
+                        "block";
+                }
+            }
         };
 
         reader.onerror = function () {
 
-            alert("Unable to read the selected image.");
+            alert(
+                "Unable to read the selected image."
+            );
 
         };
 
@@ -252,10 +324,12 @@ async function updateQR(employeeId) {
         if (!employeeId) return;
 
         const response = await fetch(
-            "/api/qr/" + encodeURIComponent(employeeId)
+            "/api/qr/" +
+            encodeURIComponent(employeeId)
         );
 
-        const result = await response.json();
+        const result =
+            await response.json();
 
         if (result.success) {
 
@@ -268,10 +342,12 @@ async function updateQR(employeeId) {
 
     } catch (error) {
 
-        console.log("QR Error:", error);
+        console.log(
+            "QR Error:",
+            error
+        );
 
     }
-
 }
 
 /* =========================
@@ -291,65 +367,84 @@ $("saveBtn").onclick = async function () {
         !o.department
     ) {
 
-        alert("Please fill all required fields.");
+        alert(
+            "Please fill all required fields."
+        );
 
         return;
-
     }
 
     try {
 
         const payload = {
 
-            employee_id: o.employeeId,
+            employee_id:
+                o.employeeId,
 
-            name: o.fullName,
+            name:
+                o.fullName,
 
-            designation: o.designation,
+            designation:
+                o.designation,
 
-            department: o.department,
+            department:
+                o.department,
 
-            date_of_joining: o.joiningDate,
+            date_of_joining:
+                o.joiningDate || null,
 
-            blood_group: o.bloodGroup,
+            blood_group:
+                o.bloodGroup || null,
 
-            emergency_contact: o.emergency,
+            emergency_contact:
+                o.emergency || null,
 
-            phone: o.hospitalPhone,
+            phone:
+                o.hospitalPhone || null,
 
-            email: o.hospitalEmail,
+            email:
+                o.hospitalEmail || null,
 
-            address: o.hospitalAddress,
+            address:
+                o.hospitalAddress || null,
 
-            photo: o.images.photo || null,
+            photo:
+                o.images.photo || null,
 
-            staff_signature: o.images.staffSig || null,
+            staff_signature:
+                o.images.staffSig || null,
 
-            doctor_signature: o.images.doctorSig || null,
+            doctor_signature:
+                o.images.doctorSig || null,
 
-            status: o.status
-
+            status:
+                o.status || "ACTIVE"
         };
 
-        const response = await fetch(
-            "/api/staff",
-            {
-                method: "POST",
+        const response =
+            await fetch(
+                "/api/staff",
+                {
+                    method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                body: JSON.stringify(payload)
-            }
-        );
+                    body:
+                        JSON.stringify(payload)
+                }
+            );
 
-        const result = await response.json();
+        const result =
+            await response.json();
 
         if (!response.ok) {
 
             throw new Error(
-                result.message || "Save failed"
+                result.message ||
+                "Save failed"
             );
 
         }
@@ -363,7 +458,9 @@ $("saveBtn").onclick = async function () {
 
         /* Generate QR */
 
-        await updateQR(o.employeeId);
+        await updateQR(
+            o.employeeId
+        );
 
         alert(
             "Staff record saved successfully to PostgreSQL."
@@ -371,7 +468,7 @@ $("saveBtn").onclick = async function () {
 
     } catch (error) {
 
-        /* Local backup even if backend fails */
+        /* Local backup */
 
         localStorage.setItem(
             "namagiriStaffRecord",
@@ -383,9 +480,7 @@ $("saveBtn").onclick = async function () {
             error.message +
             "\nLocal backup was saved."
         );
-
     }
-
 };
 
 /* =========================
@@ -395,100 +490,193 @@ $("saveBtn").onclick = async function () {
 $("loadBtn").onclick = function () {
 
     const saved =
-        localStorage.getItem("namagiriStaffRecord");
+        localStorage.getItem(
+            "namagiriStaffRecord"
+        );
 
     if (!saved) {
 
-        alert("No saved staff record found.");
+        alert(
+            "No saved staff record found."
+        );
 
         return;
-
     }
 
-    const o = JSON.parse(saved);
+    try {
 
-    /* Restore fields */
+        const o =
+            JSON.parse(saved);
 
-    fields.forEach(id => {
+        /* Restore fields */
 
-        if (o[id] !== undefined) {
+        fields.forEach(id => {
 
-            $(id).value = o[id];
+            if (
+                o[id] !== undefined &&
+                $(id)
+            ) {
 
+                $(id).value =
+                    o[id];
+
+            }
+
+        });
+
+        /* Restore images */
+
+        Object.assign(
+            savedImages,
+            o.images || {}
+        );
+
+        /* STAFF PHOTO */
+
+        if (savedImages.photo) {
+
+            const photoPreview =
+                $("photoPreview");
+
+            if (photoPreview) {
+
+                photoPreview.src =
+                    savedImages.photo;
+
+                photoPreview.style.display =
+                    "block";
+            }
         }
 
-    });
+        /* HOSPITAL LOGO */
 
-    /* Restore images */
+        if (savedImages.logo) {
 
-    Object.assign(
-        savedImages,
-        o.images || {}
-    );
+            const logoBox =
+                $("logoBox");
 
-    /* Staff Photo */
+            const headerLogo =
+                $("headerLogo");
 
-    if (savedImages.photo) {
+            if (
+                savedImages.logo ===
+                "logo.png"
+            ) {
 
-        $("photoPreview").src =
-            savedImages.photo;
+                if (logoBox) {
 
+                    logoBox.innerHTML =
+                        '<img src="logo.png" alt="Hospital Logo">';
+
+                }
+
+                if (headerLogo) {
+
+                    headerLogo.src =
+                        "logo.png";
+
+                }
+
+            } else {
+
+                if (logoBox) {
+
+                    logoBox.innerHTML =
+                        '<img src="' +
+                        savedImages.logo +
+                        '" alt="Hospital Logo">';
+
+                }
+
+                if (headerLogo) {
+
+                    headerLogo.src =
+                        savedImages.logo;
+
+                }
+            }
+        }
+
+        /* STAFF SIGNATURE */
+
+        if (savedImages.staffSig) {
+
+            const sigPreview =
+                $("staffSigPreview");
+
+            if (sigPreview) {
+
+                sigPreview.src =
+                    savedImages.staffSig;
+
+                sigPreview.style.display =
+                    "block";
+
+                sigPreview.style.visibility =
+                    "visible";
+
+                sigPreview.style.opacity =
+                    "1";
+
+                sigPreview.style.width =
+                    "120px";
+
+                sigPreview.style.height =
+                    "50px";
+
+                sigPreview.style.objectFit =
+                    "contain";
+            }
+        }
+
+        /* DOCTOR SIGNATURE */
+
+        if (savedImages.doctorSig) {
+
+            const doctorPreview =
+                $("doctorSigPreview");
+
+            if (doctorPreview) {
+
+                doctorPreview.src =
+                    savedImages.doctorSig;
+
+                doctorPreview.style.display =
+                    "block";
+
+                doctorPreview.style.visibility =
+                    "visible";
+
+                doctorPreview.style.opacity =
+                    "1";
+            }
+        }
+
+        /* Update preview */
+
+        update();
+
+        /* Update QR */
+
+        updateQR(
+            $("employeeId").value
+        );
+
+        alert(
+            "Saved record loaded."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Load error:",
+            error
+        );
+
+        alert(
+            "Unable to load saved record."
+        );
     }
-
-    /* Hospital Logo */
-
-    if (savedImages.logo) {
-
-        $("logoBox").innerHTML =
-            '<img src="' +
-            savedImages.logo +
-            '" alt="Hospital Logo">';
-
-        $("headerLogo").src =
-            savedImages.logo;
-
-    }
-
-    /* STAFF SIGNATURE */
-if (id === "staffSig") {
-
-    const sigPreview = $("staffSigPreview");
-
-    if (sigPreview) {
-        sigPreview.src = imageData;
-
-        sigPreview.style.display = "block";
-        sigPreview.style.visibility = "visible";
-        sigPreview.style.opacity = "1";
-        sigPreview.style.width = "120px";
-        sigPreview.style.height = "50px";
-        sigPreview.style.objectFit = "contain";
-
-        sigPreview.onload = function () {
-            console.log("STAFF SIGNATURE IMAGE DISPLAYED");
-        };
-
-        sigPreview.onerror = function () {
-            console.log("STAFF SIGNATURE IMAGE FAILED");
-        };
-    }
-}
-
-    /* Doctor Signature */
-
-    if (savedImages.doctorSig) {
-
-        $("doctorSigPreview").src =
-            savedImages.doctorSig;
-
-    }
-
-    update();
-
-    updateQR($("employeeId").value);
-
-    alert("Saved record loaded.");
-
 };
 
 /* =========================
@@ -497,12 +685,15 @@ if (id === "staffSig") {
 
 $("clearBtn").onclick = function () {
 
-    if (confirm("Clear the current form?")) {
+    if (
+        confirm(
+            "Clear the current form?"
+        )
+    ) {
 
         location.reload();
 
     }
-
 };
 
 /* =========================
@@ -519,7 +710,11 @@ $("newBtn").onclick = function () {
 
         fields.forEach(id => {
 
-            $(id).value = "";
+            if ($(id)) {
+
+                $(id).value = "";
+
+            }
 
         });
 
@@ -529,11 +724,33 @@ $("newBtn").onclick = function () {
         $("status").value =
             "ACTIVE";
 
-        Object.keys(savedImages).forEach(key => {
+        /* Clear saved images */
 
-            delete savedImages[key];
+        Object.keys(savedImages)
+            .forEach(key => {
 
-        });
+                delete savedImages[key];
+
+            });
+
+        /* Clear file inputs */
+
+        Object.values(imgs)
+            .forEach(id => {
+
+                const input = $(id);
+
+                if (input) {
+
+                    input.value = "";
+
+                }
+
+            });
+
+        /* Restore default logo */
+
+        loadDefaultLogo();
 
         update();
 
@@ -545,14 +762,20 @@ $("newBtn").onclick = function () {
    PRINT
 ========================= */
 
-$("printTop").onclick = function () {
+if ($("printTop")) {
 
-    window.print();
+    $("printTop").onclick =
+        function () {
 
-};
+            window.print();
+
+        };
+}
 
 /* =========================
-   INITIAL UPDATE
+   INITIAL LOAD
 ========================= */
+
+loadDefaultLogo();
 
 update();
